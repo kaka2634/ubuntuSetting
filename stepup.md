@@ -1,5 +1,5 @@
 #安装备案
-##linux版本
+##ubuntu版本
 使用命令
 ```
 file /bin/ls
@@ -407,15 +407,48 @@ ${execi 300 cp -f ~/.harmattan-assets/icons/#dcdcdc__32/$(jq .list[1].weather[0]
 ${execi 300 cp -f ~/.harmattan-assets/icons/#dcdcdc__32/$(jq .list[2].weather[0].id ~/.cache/forecast.json).png ~/.cache/weather-3.png}${image ~/.cache/weather-3.png -p 195,207 -s 32x32}${font}${voffset -120}\
 ]]
 ```
+其中API key选项需填写申请的API key，在申请的账户里能够找到。
 
 参考链接：
 [下载conky主题](https://github.com/zagortenay333/Harmattan)
 [更改.conkyrc 位置坐标](http://m.blog.csdn.net/article/details?id=52040186)
-
+#### compiz 3D动态
+之前在CentOS系统使用过，最常见就是果冻特效和3D切换。但ubuntu安装一次点错选项直接图形界面就崩了，权利太大不建议使用。
 ####ubuntu应用安装
 [foxit pdf 阅读器](https://www.foxitsoftware.com/products/pdf-reader/) 使用起来比okular和xpdf都好
 [酷狗音乐播放器](https://github.com/LiuLang/kwplayer-packages)
 [remarkable](https://remarkableapp.github.io/linux.html) 写markdown ,直接下载deb包
 [有道辞典](http://cidian.youdao.com/index-linux.html)
-[Sublime](https://www.sublimetext.com/3)
-[Texmarker]直接在软件中心搜索下载
+[Sublime](https://www.sublimetext.com/3) 
+[Texmaker](http://www.xm1math.net/texmaker/) 可直接在软件中心搜索下载
+
+##Ubuntu shell
+####编写脚本
+打开文本编辑器,写入
+```
+#!/bin/bash
+echo "Hello World !"
+```
+保存为test.sh
+其中，" #! " 是一个约定的标记， 它告诉系统这个脚本需要什么解释器来执行， 即使用哪一种Shell。
+####运行脚本：
+1、使用可执行程序
+
+查看文件属性
+```
+ls -l test.sh #r可读、w可写、x表示可执行权限
+```
+在终端中test.sh所在目录下输入
+```
+chmod +x ./test.sh #使脚本具有执行权限
+./test.sh #执行脚本
+```
+注意， 一定要写成./test.sh， 而不是test.sh， 运行其它二进制的程序也一样， 直接写test.sh，linux系统会去PATH里寻找有没有叫test.sh的， 而只有/bin, /sbin, /usr/bin， /usr/sbin等在PATH里， 你的当前目录通常不在PATH里， 所以写成test.sh是会找不到命令的， 要用./test.sh告诉系统说， 就在当前目录找。
+
+2、直接调用解释器
+
+这种运行方式是， 直接运行解释器， 其参数就是shell脚本的文件名。
+```
+/bin/sh test.sh
+```
+这种方式运行的脚本， 不需要在第一行指定解释器信息， 写了也没用。
