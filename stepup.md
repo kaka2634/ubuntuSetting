@@ -421,7 +421,19 @@ ${execi 300 cp -f ~/.harmattan-assets/icons/#dcdcdc__32/$(jq .list[2].weather[0]
 [有道辞典](http://cidian.youdao.com/index-linux.html)
 [Sublime](https://www.sublimetext.com/3) 
 [Texmaker](http://www.xm1math.net/texmaker/) 可直接在软件中心搜索下载
-
+##Ubuntu network
+每次登录都收到 “Network service discovery disabled. Your current network has a .local domain, which is not recommended and incompatible with the Avahi network service discovery. The service has been disabled.”的信息。为了取消提示，需要禁用检测。
+首先进入root
+```
+sudo -i
+gedit /etc/default/avahi-daemon
+```
+增加这行或在修改值为0。
+```
+AVAHI_DAEMON_DETECT_LOCAL=0
+```
+参考链接：
+[http://askubuntu.com/questions/339702/network-service-discovery-disabled-what-does-this-mean-for-me](http://askubuntu.com/questions/339702/network-service-discovery-disabled-what-does-this-mean-for-me)
 ##Ubuntu shell
 ####编写脚本
 打开文本编辑器,写入
