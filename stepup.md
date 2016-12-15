@@ -146,11 +146,17 @@ $ vi ~/.conkyrc
 [安装conky并使用](http://www.shellhacks.com/en/HowTo-Install-and-Configure-Conky-in-Linux-Mint-Ubuntu-Debian)
 ####下载conky文件并修改
 个人一开始编辑还是很难，下载的是[Harmattan](https://github.com/zagortenay333/Harmattan)主题，基本完全按照里面的步骤完成配置：
+
 1. 把.harmattan-assets移动到 ~ 目录下
+
 2. 在 .harmattan-themes 中找到各个分类最后的.conkyrc放到 ~ 目录下（只用选择一个，我选择Numix->God-mode->photo mode下的 .conkyrc文件）
+
 3. 在[openweathermap](http://openweathermap.org/)网站中注册帐号，获取到一个API key填写到.conkyrc 中
+
 4. 在网站中找到对应城市的ID编号写到.conkyrc 中
+
 5. 文件在运行中出现错位，所以需要修改位置，修改gap_x=1100, gap_y=60 和voffset后面的值)
+
 最后修改后的文件：
 ```
 conky.config = {
@@ -574,24 +580,35 @@ bash文件主要在~和/etc目录下的隐藏文件(.开头文件)，可以通�
 
 ####数据重导向
 [数据重导向](http://cn.linux.vbird.org/linux_basic/0320bash.php#redirect_redirect)用于把终端的输出数据转到文本文件输出，相当于log文件
+
 标准输入　　(stdin) ：代码为 0 ，使用 < 或 << ；
+
 标准输出　　(stdout)：代码为 1 ，使用 > 或 >> ；
+
 标准错误输出(stderr)：代码为 2 ，使用 2> 或 2>> ；
 ```
 ll
- ll  > Desktop/test/testlog #导向文件，终端不显示
- cat  Desktop/test/testlog
+ll  > Desktop/test/testlog #导向文件，终端不显示
+cat  Desktop/test/testlog
 ```
-关于一个>与两个>>含义
+关于一个>与两个>>含义:
+
 1> ：以覆盖的方法将『正确的数据』输出到指定的文件或装置上；
+
 1>>：以累加的方法将『正确的数据』输出到指定的文件或装置上；
+
 2> ：以覆盖的方法将『错误的数据』输出到指定的文件或装置上；
+
 2>>：以累加的方法将『错误的数据』输出到指定的文件或装置上；
+
 < :将原本需要由键盘输入的数据，改由文件内容来取代的意思
+
 << :后面接结束时所需输入字符,而不需要ctrl+d离开
+
 实现输出正确找到的信息与错误信息（像permission deny）输出到文件中。
 注意：
 1、垃圾桶黑洞装置/dev/null 可以吃掉任何导向这个装置的信息.
+
 2、写入统一文件
 ```
 find /home -name .bashrc > list 2> list  <==错误
@@ -603,12 +620,22 @@ find /home -name .bashrc &> list         <==正确
 ####管线命令
 处理必须前面命令必须正确的连续命令，命令之间用|符号隔开，满足如下两点：
 1、管线命令仅会处理 standard output，对于 standard error output 会予以忽略
+
 2、管线命令必须要能够接受来自前一个命令的数据成为 standard input 继续处理才行。
+
 配合命令：
+
 1、cut
+
 2、grep
+
 3、sort
-4、uniq 不显示重复行（该行只跟上一行判断，一样就不显示,所以一般配合sort，将一样的先列一块）
+
+4、uniq 不显示重复行（该行只跟上一行判断，一样就不显示,所以一般配合sort，
+将一样的先列一块）
+
 5、wc 统计字、行、字符
+
 6、tee 双向导向，即又输出终端又输出文件
+
 7、- 减号在管线中将前面命令输出作为输入
