@@ -1,0 +1,8 @@
+#Variable
+ns=Desktop/workspace/ns-allinone-3.26/ns-3.26
+#cd $ns
+test=Desktop/test
+
+#alias
+alias lm='ls -al |more'
+

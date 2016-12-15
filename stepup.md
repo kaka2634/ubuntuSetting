@@ -448,7 +448,7 @@ echo "Hello World !"
 
 查看文件属性
 ```
-ls -l test.sh #r可读、w可写、x表示可执行权限
+# ls -l test.sh #r可读、w可写、x表示可执行权限
 ```
 在终端中test.sh所在目录下输入
 ```
@@ -464,3 +464,151 @@ chmod +x ./test.sh #使脚本具有执行权限
 /bin/sh test.sh
 ```
 这种方式运行的脚本， 不需要在第一行指定解释器信息， 写了也没用。
+
+####卸载sh安装的程序
+为了安装随天气变化壁纸，下载[Weatherpaper](http://www.omgubuntu.co.uk/2010/08/weatherpaper-puts-the-weather-outside-on-your-desktop-inside),使用里面install.sh安装，但运行失败，需要卸载。
+在使用脚本度基础上，直接查看install.sh文件
+```
+PROGRAM_FOLDER="/opt/WeatherPaper"
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+# Make the program folder
+if [ ! -d "$PROGRAM_FOLDER" ]; then
+    mkdir "$PROGRAM_FOLDER"
+fi
+    
+# Copy files
+cp settings.cfg "$PROGRAM_FOLDER/"
+cp tango.zip "$PROGRAM_FOLDER/"
+cp weatherpaper.py "$PROGRAM_FOLDER/"
+cp first-run.sh "$PROGRAM_FOLDER/"
+cp weatherpaper.sh "$PROGRAM_FOLDER/"
+cp editor.pyw "$PROGRAM_FOLDER/"
+cp SettingsPage.xml "$PROGRAM_FOLDER/"
+cp pywapi.py "$PROGRAM_FOLDER/"
+cp zipfile.py "$PROGRAM_FOLDER/"
+cp arialbd.ttf "$PROGRAM_FOLDER/"
+cp LICENSE.txt "$PROGRAM_FOLDER/"
+cp README.txt "$PROGRAM_FOLDER/"
+cp weather-few-clouds.png "$PROGRAM_FOLDER/"
+cp weatherpaper.desktop "$PROGRAM_FOLDER/"
+cp weatherpaper-editor.desktop "$PROGRAM_FOLDER/"
+
+# Add an entry to the Gnome/KDE Menu
+chmod a-x "$PROGRAM_FOLDER/weatherpaper.desktop"
+chmod a-x "$PROGRAM_FOLDER/weatherpaper-editor.desktop"
+cp "$PROGRAM_FOLDER/weatherpaper.desktop" "/usr/share/applications/weatherpaper.desktop"
+cp "$PROGRAM_FOLDER/weatherpaper-editor.desktop" "/usr/share/applications/weatherpaper-editor.desktop"
+
+echo "Installation complete."
+echo "To run WeatherPaper, go to Applications->Accessories->WeatherPaper"
+```
+发现其实就是拷贝文件到/opt/WeatherPaper文件中，因而进入/opt目录下查看到WeatherPaper目录，删除目录就可以了
+```
+sudo rm -r WeatherPaper
+```
+注意终端使用cd /opt和cd opt是不同路径，一个是root目录下，一个是在用户home目录下。
+#### ubuntu设置变量值
+在bash中使用[变量](http://cn.linux.vbird.org/linux_basic/0320bash.php#variable)能够更方便管理。
+可以通过echo输出各变量表示值，bash 中不存变量就输出空，否则输出对应值
+```
+echo $variable
+echo $PATH
+```
+通过=就能给变量赋值啦，给PATH增加路径可以，直接在终端输入
+```
+ PATH=$PATH:/home/dmtsai/bin
+ PATH="$PATH":/home/dmtsai/bin
+ PATH=${PATH}:/home/dmtsai/bin #三者也可以
+```	
+使用env可以查看目前系统中默认环境变量,set 看所有的环境变量，包括自定义
+```
+env
+set #或着declare
+```
+
+变量的方便用途就是简化路径名，如工作路径太长
+```
+work="/cluster/server/work/taiwan_2005/003/"
+ cd $work
+```
+目前work只对该bash子程序有用，要使所有有用就要升级为环境变量。
+使用export [变量名] 就能够给子程序使用，即升级为环境变量. 或者使用declare语句
+```
+export work 
+#或者 declare -x work
+```
+
+查看环境变量是否又增加work变量
+```
+export | grep work
+```
+使用declare+x就能取消自定义环境变量
+```
+declare +x work
+```
+注意设置变量为空，用unset [变量名],使用变量名=""或变量名=都是表示空字符串。
+
+TODO:新开一个终端就自定义的环境变量就没有了，是不是需要写个脚本。
+####设置命令别名
+简化命令，可以用一个别名代替。比如用la代替显示所有文件-a详细信息-l。
+```
+alias lm='ls -al |more'
+```
+查看所有别名可以输入alias。使用unalias可以取消别名
+```
+unalias lm
+```
+命令别名是命令，而变量只是代替值，需要echo输出值。
+####Bash Shell配置文件
+bash文件主要在~和/etc目录下的隐藏文件(.开头文件)，可以通过ls -al查找文件或着者ctrl+H，用cat或者编辑器查看文件。
+1、进站信息文件 /etc/issue
+2、环境配置文件 /etc/profile（只有login shell才读）里面会调用~/.bashrc （non-login shell会读，终端使用就是non login）
+3、命令存储历史 ~/.bash_history
+4、退出bash操作 ~/.bash_logout
+
+####数据重导向
+[数据重导向](http://cn.linux.vbird.org/linux_basic/0320bash.php#redirect_redirect)用于把终端的输出数据转到文本文件输出，相当于log文件
+标准输入　　(stdin) ：代码为 0 ，使用 < 或 << ；
+标准输出　　(stdout)：代码为 1 ，使用 > 或 >> ；
+标准错误输出(stderr)：代码为 2 ，使用 2> 或 2>> ；
+```
+ll
+ ll  > Desktop/test/testlog #导向文件，终端不显示
+ cat  Desktop/test/testlog
+```
+关于一个>与两个>>含义
+1> ：以覆盖的方法将『正确的数据』输出到指定的文件或装置上；
+1>>：以累加的方法将『正确的数据』输出到指定的文件或装置上；
+2> ：以覆盖的方法将『错误的数据』输出到指定的文件或装置上；
+2>>：以累加的方法将『错误的数据』输出到指定的文件或装置上；
+< :将原本需要由键盘输入的数据，改由文件内容来取代的意思
+<< :后面接结束时所需输入字符,而不需要ctrl+d离开
+实现输出正确找到的信息与错误信息（像permission deny）输出到文件中。
+注意：
+1、垃圾桶黑洞装置/dev/null 可以吃掉任何导向这个装置的信息.
+2、写入统一文件
+```
+find /home -name .bashrc > list 2> list  <==错误
+find /home -name .bashrc > list 2>&1     <==正确
+find /home -name .bashrc &> list         <==正确
+```
+由于两股数据同时写入一个文件，又没有使用特殊的语法， 此时两股数据可能会交叉写入该文件内，造成次序的错乱。
+
+####管线命令
+处理必须前面命令必须正确的连续命令，命令之间用|符号隔开，满足如下两点：
+1、管线命令仅会处理 standard output，对于 standard error output 会予以忽略
+2、管线命令必须要能够接受来自前一个命令的数据成为 standard input 继续处理才行。
+配合命令：
+1、cut
+2、grep
+3、sort
+4、uniq 不显示重复行（该行只跟上一行判断，一样就不显示,所以一般配合sort，将一样的先列一块）
+5、wc 统计字、行、字符
+6、tee 双向导向，即又输出终端又输出文件
+7、- 减号在管线中将前面命令输出作为输入
