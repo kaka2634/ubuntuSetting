@@ -427,6 +427,170 @@ ${execi 300 cp -f ~/.harmattan-assets/icons/#dcdcdc__32/$(jq .list[2].weather[0]
 [有道辞典](http://cidian.youdao.com/index-linux.html)
 [Sublime](https://www.sublimetext.com/3) 
 [Texmaker](http://www.xm1math.net/texmaker/) 可直接在软件中心搜索下载
+
+##Ubuntu壁纸
+设置一个随时间变化的壁纸，也就算wallpaper slideshow。
+有很多软件能够实现动态变化的壁纸，可以安装[wallch](http://www.omgubuntu.co.uk/2016/12/8-bit-day-wallpaper-changes-day) 和 [variety](http://ubuntuhandbook.org/index.php/2016/01/install-variety-wallpaper-changer-in-ubuntu-16-04/)，也可以直接用ubuntu自带的[shotwell](http://askubuntu.com/questions/134/how-do-i-create-a-desktop-wallpaper-slideshow)来直接将slideshow设置为桌面背景。
+启发于一个随一天时间变化的壁纸 [A Day in the Life](http://barid42.deviantart.com/art/A-Day-in-the-Life-204881196),下载了它的壁纸。但运行install安装并没有反应，查看install.sh文件，发现路径与14.04的壁纸所在文件已经不同了，需要手动配置，这样不需要借助其他应用来修改壁纸。
+
+在ubuntu 14.04需要两个xml配置文件，一个作为入口路径，一个是配置文件。
+1、入口路径文件在/usr/share/gnome-background-properties下，新建 MyfirstSlideShow.xml文件(可参考trusty-wallpapers.xml文件写法)
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Daily Wallpapers</name>
+    <filename>/usr/share/backgrounds/wallpaper/MyFirstSlideShow.xml</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>01</name>
+    <filename>/usr/share/backgrounds/wallpaper/01.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>02</name>
+    <filename>/usr/share/backgrounds/wallpaper/02.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>03</name>
+    <filename>/usr/share/backgrounds/wallpaper/03.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>04</name>
+    <filename>/usr/share/backgrounds/wallpaper/04.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>05</name>
+    <filename>/usr/share/backgrounds/wallpaper/05.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>06</name>
+    <filename>/usr/share/backgrounds/wallpaper/06.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>07</name>
+    <filename>/usr/share/backgrounds/wallpaper/07.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <name>08</name>
+    <filename>/usr/share/backgrounds/wallpaper/08.png</filename>
+    <options>zoom</options>
+    <pcolor>#000000</pcolor>
+    <scolor>#000000</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+</wallpapers>
+```
+配置文件和壁纸都放在/usr/share/backgrounds目录下的wallpaper文件夹中，
+新建配置文件MyFirstSlideShow.xml(参考contest文件下 trust.xml写法)
+```
+<background>
+<starttime>
+<year>2016</year>
+<month>12</month>
+<day>16</day>
+<hour>0</hour>
+<minute>0</minute>
+<second>01</second>
+</starttime>
+
+<static>
+<duration>18000.0</duration>
+<file>/usr/share/backgrounds/wallpaper/08.png</file>
+</static>
+<!-- it is now 5am -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/08.png</from>
+<to>/usr/share/backgrounds/wallpaper/01.png</to>
+</transition>
+<!-- it is now 7am -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/01.png</from>
+<to>/usr/share/backgrounds/wallpaper/02.png</to>
+</transition>
+<!-- it is now 9am -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/02.png</from>
+<to>/usr/share/backgrounds/wallpaper/03.png</to>
+</transition>
+<!-- it is now 11am -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/03.png</from>
+<to>/usr/share/backgrounds/wallpaper/04.png</to>
+</transition>
+<!-- it is now 1pm -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/04.png</from>
+<to>/usr/share/backgrounds/wallpaper/05.png</to>
+</transition>
+<!-- it is now 3pm -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/05.png</from>
+<to>/usr/share/backgrounds/wallpaper/06.png</to>
+</transition>
+<!-- it is now 5pm -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>/usr/share/backgrounds/wallpaper/06.png</from>
+<to>/usr/share/backgrounds/wallpaper/07.png</to>
+</transition>
+<!-- it is now 7pm -->
+<transition type="overlay">
+<duration>7200.0</duration>
+<from>//usr/share/backgrounds/wallpaper/07.png</from>
+<to>/usr/share/backgrounds/wallpaper/08.png</to>
+</transition>
+<!-- it is now 9pm -->
+<static>
+<duration>10800.0</duration>
+<file>//usr/share/backgrounds/wallpaper/08.png</file>
+</static>
+<!-- it is now midnight -->
+</background>
+
+```
+保存，就能在System Setting->Apperance中找到对应的daily theme,右上方也会有daily theme图标的提示。
+
+TODO: 写个安装脚本
+
 ##Ubuntu network
 每次登录都收到 “Network service discovery disabled. Your current network has a .local domain, which is not recommended and incompatible with the Avahi network service discovery. The service has been disabled.”的信息。为了取消提示，需要禁用检测。
 首先进入root
@@ -440,6 +604,8 @@ AVAHI_DAEMON_DETECT_LOCAL=0
 ```
 参考链接：
 [http://askubuntu.com/questions/339702/network-service-discovery-disabled-what-does-this-mean-for-me](http://askubuntu.com/questions/339702/network-service-discovery-disabled-what-does-this-mean-for-me)
+
+
 ##Ubuntu shell
 ####编写脚本
 打开文本编辑器,写入
@@ -627,7 +793,7 @@ find /home -name .bashrc &> list         <==正确
 
 1、cut
 
-2、grep
+2、grep 不输出空白行和注释的行方法grep -v '^$' [filename]| grep -v '^#'
 
 3、sort
 
@@ -639,3 +805,49 @@ find /home -name .bashrc &> list         <==正确
 6、tee 双向导向，即又输出终端又输出文件
 
 7、- 减号在管线中将前面命令输出作为输入
+
+####查看程序资讯
+每个程序（process）会依据UID/GID触发后，会被分配一个PID
+使用ps -l命令查看程序UID/GID PID PPID(parent ID)
+例如，在bash中再启用一个子bash，子bash的PPID就是父bash的PID
+```
+liu@liu-Lenovo-IdeaPad-Y470:~$ ps -l
+F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+0 S  1000  4857  3408  0  80   0 -  6848 wait   pts/1    00:00:00 bash
+4 R  1000  4871  4857  0  80   0 -  3552 -      pts/1    00:00:00 ps
+liu@liu-Lenovo-IdeaPad-Y470:~$ bash
+liu@liu-Lenovo-IdeaPad-Y470:~$ ps -l
+F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+0 S  1000  4857  3408  0  80   0 -  6848 wait   pts/1    00:00:00 bash
+0 S  1000  4876  4857  1  80   0 -  6850 wait   pts/1    00:00:00 bash
+4 R  1000  4897  4876  0  80   0 -  3552 -      pts/1    00:00:00 ps
+```
+使用ps -aux能够看到所有系统程序。
+除此之外，我们必须要知道的是僵尸 (zombie) 程序是什么？ 通常，造成僵尸程序的成因是因为该程序应该已经运行完毕，或者是因故应该要终止了， 但是该程序的父程序却无法完整的将该程序结束掉，而造成那个程序一直存在内存当中。 如果你发现在某个程序的 CMD 后面还接上 <defunct> 时，就代表该程序是僵尸程序啦
+
+关闭程序 使用kill -signal PID命令。其中signal表示数字，9强制终止，15为正常方式关闭。
+‘’‘
+kill -9 PID
+’‘’
+删除父程序子程序就全删除啦,使用pstree -A 能够更好的看到相关性。加上|grep能更快找到对应的程序
+
+####job control的管理
+job对应于前面process，job仅仅是在bash这个process上运行的工作程序，范围更小，同时可以在bash中管理。
+将命令放到背景中运行 &
+```
+conky &
+```
+此时会分配一个[job number]同时后面接上PID，并显示在界面中。
+查背景环境中的job
+```
+jobs -l
+```
+使用fg能够拿到前景
+```
+fg %jobnumber
+```
+使用kill能够删除job
+```
+kill -9 %jobnumber #强制删除
+kill -15 %jobnumber #正常退出
+```
