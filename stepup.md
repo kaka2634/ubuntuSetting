@@ -5,12 +5,7 @@
 file /bin/ls
 ```
 本电脑是x86-64
-##ns3
-使用AODV example
-```
-cd Desktop/workspace/ns-allinone-3.26/ns-3.26/
- ./waf --run aodv --vis
-```
+
 ##ubuntu显示亮度
 不同电脑有acpi_video0和intel_backlight两种显示表示
 
@@ -230,7 +225,7 @@ color8="2D2D2D",
 -------------------------------------
 --  API Key
 -------------------------------------
-template6="5737f72fbb86cd61a2117b07e8eb9d25",
+template6="",
 
 
 -------------------------------------
@@ -420,6 +415,7 @@ ${execi 300 cp -f ~/.harmattan-assets/icons/#dcdcdc__32/$(jq .list[2].weather[0]
 [更改.conkyrc 位置坐标](http://m.blog.csdn.net/article/details?id=52040186)
 #### compiz 3D动态
 之前在CentOS系统使用过，最常见就是果冻特效和3D切换。但ubuntu安装一次点错选项直接图形界面就崩了，权利太大不建议使用。
+一般可以下载一个compiz manager 修改下窗口打开、关闭和最小化的动画。
 ####ubuntu应用安装
 [foxit pdf 阅读器](https://www.foxitsoftware.com/products/pdf-reader/) 使用起来比okular和xpdf都好
 [酷狗音乐播放器](https://github.com/LiuLang/kwplayer-packages)
@@ -684,7 +680,7 @@ echo "To run WeatherPaper, go to Applications->Accessories->WeatherPaper"
 ```
 sudo rm -r WeatherPaper
 ```
-注意终端使用cd /opt和cd opt是不同路径，一个是root目录下，一个是在用户home目录下。
+注意终端使用cd /opt和cd opt是不同路径，一个是root目录下，一个是在用户/home/liu(用户名)/目录下(因为没有/只能是在当前用户的目录下才可以表示相当于~/home/(用户名/opt,而加了/就相当于~/opt)。
 #### ubuntu设置变量值
 在bash中使用[变量](http://cn.linux.vbird.org/linux_basic/0320bash.php#variable)能够更方便管理。
 可以通过echo输出各变量表示值，bash 中不存变量就输出空，否则输出对应值
@@ -726,7 +722,7 @@ declare +x work
 ```
 注意设置变量为空，用unset [变量名],使用变量名=""或变量名=都是表示空字符串。
 
-TODO:新开一个终端就自定义的环境变量就没有了，是不是需要写个脚本。
+TODO:新开一个终端就自定义的环境变量就没有了，是不是需要写个脚本。需要写在/.bashrc中，包括后面的alias命令.
 ####设置命令别名
 简化命令，可以用一个别名代替。比如用la代替显示所有文件-a详细信息-l。
 ```
@@ -851,3 +847,52 @@ fg %jobnumber
 kill -9 %jobnumber #强制删除
 kill -15 %jobnumber #正常退出
 ```
+
+#### man中文手册安装
+Ubuntu默认是没有完全安装man手册的
+```
+sudo apt-get install manpages-de  manpages-de-dev  manpages-dev glibc-doc manpages-posix-dev manpages-posix
+```
+为了显示中文手册，下载manpages-zh包。
+```
+sudo apt-get install  manpages-zh
+```
+在/.bashrc文件中配置cman显示man中文手册，添加
+
+```
+sudo vim ~/.bashrc
+#在里面添加:alias cman='man -M /usr/share/man/zh_CN'
+source ~/.bashrc
+cman ls
+```
+
+####文件权限修改
+```
+chmod #权限
+chown #拥有者
+chgrp  #群组
+```
+使用man各个命令，如果对于目录修改并修改目录下所有文件
+需要增加选项 -R 表示递归下面所有内容,小心使用，万一手抖没输入完目录，所有目录下文件都修改啦，所以先做好备份。
+
+## 安装caffeine
+全皮看视频遇锁屏问题，虽然有一些脚本，但也有了[caffeine](https://launchpad.net/caffeine)这样的应用来解决。
+
+按照以下方法安装
+
+```
+sudo add-apt-repository ppa:caffeine-developers/ppa
+sudo apt-get update
+sudo apt-get install caffeine
+```
+
+修改开机选项增加sleep30秒
+```
+/usr/bin/caffeine -p 30
+```
+
+目前还没有实验，不知道效果怎么样。
+
+参考链接：
+
+[How to Install Caffeine Indicator 2.8 in Ubuntu 14.04](http://ubuntuhandbook.org/index.php/2015/01/install-caffeine-indicator-ubuntu-14-04/)
