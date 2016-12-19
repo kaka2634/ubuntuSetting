@@ -681,7 +681,9 @@ echo "To run WeatherPaper, go to Applications->Accessories->WeatherPaper"
 sudo rm -r WeatherPaper
 ```
 注意终端使用cd /opt和cd opt是不同路径，一个是root目录下，一个是在用户/home/liu(用户名)/目录下(因为没有/只能是在当前用户的目录下才可以表示相当于~/home/(用户名/opt,而加了/就相当于~/opt)。
+
 #### ubuntu设置变量值
+
 在bash中使用[变量](http://cn.linux.vbird.org/linux_basic/0320bash.php#variable)能够更方便管理。
 可以通过echo输出各变量表示值，bash 中不存变量就输出空，否则输出对应值
 ```
@@ -778,6 +780,53 @@ find /home -name .bashrc > list 2>&1     <==正确
 find /home -name .bashrc &> list         <==正确
 ```
 由于两股数据同时写入一个文件，又没有使用特殊的语法， 此时两股数据可能会交叉写入该文件内，造成次序的错乱。
+
+#### 第一个有用的shell脚本
+根据变量、日期变量date、read命令和数据重导向就可以写一个方便新建博客post的md模板。
+
+```
+#!/bin/bash
+
+# Program:
+#	Program creates  a file, which named by user's input 
+#	and date command using for blogpost
+# History:
+# 2016/12/19	liu	 	First release
+
+
+echo "Plz input your filename: " | pv -qL 10
+read fileuser
+echo "Title: " | pv -qL 10
+read title
+echo "Categories(study/travel): " | pv -qL 10
+read categories
+echo "Tag: " | pv -qL 10
+read tag
+
+#prevent using [Enter] 
+filename=${fileuser:-"filename"}  
+
+
+file=$(date +%Y-%m-%d)-${filename}.md
+
+touch "$file"
+echo "---" >>$file
+echo "layout: post" >>$file
+echo "title: "${title} >>$file
+echo "categories: "${categories} >>$file
+echo "tag: "${tag} >>$file
+echo "---" >>$file
+```
+
+注意：
+
+1. 变量=值，值可以不需要引号，识别为字符串
+
+2. 日期使用date变量能够获取，加上加号可以设置格式
+
+3. 表达式用小括号/$(date +%Y-%m-%d)，而变量整体用大括号${filename}
+
+4. 用两个向右箭头>> 是结果叠加输出，而一个向右箭头>则是会清空之前结果再写入
 
 ####管线命令
 处理必须前面命令必须正确的连续命令，命令之间用|符号隔开，满足如下两点：
