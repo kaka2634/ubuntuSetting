@@ -633,6 +633,16 @@ chmod +x ./test.sh #使脚本具有执行权限
 ```
 这种方式运行的脚本， 不需要在第一行指定解释器信息， 写了也没用。
 
+此外，有两个选项对于shell debug则很关键。
+
+shell显示语法检测
+```
+sh -n
+```
+shell显示运行过程
+```
+sh -x
+```
 ####卸载sh安装的程序
 为了安装随天气变化壁纸，下载[Weatherpaper](http://www.omgubuntu.co.uk/2010/08/weatherpaper-puts-the-weather-outside-on-your-desktop-inside),使用里面install.sh安装，但运行失败，需要卸载。
 在使用脚本度基础上，直接查看install.sh文件
@@ -724,8 +734,16 @@ declare +x work
 ```
 注意设置变量为空，用unset [变量名],使用变量名=""或变量名=都是表示空字符串。
 
-TODO:新开一个终端就自定义的环境变量就没有了，是不是需要写个脚本。需要写在/.bashrc中，包括后面的alias命令.
+TODO:新开一个终端就自定义的环境变量就没有了，这是因为开一个终端，系统会分配一个子程序供我们使用，我们的定义都是在这个子程序的bash中进行，总的父bash和父bash其他新开终端自然不知道。
+
+所以要想都可以使用有以下方法，
+
+1. 写在/.bashrc中，包括后面的alias命令，这样开机系统父bash就会运行定义。
+
+2. 写成任意脚本，用source filename.sh运行
+
 ####设置命令别名
+
 简化命令，可以用一个别名代替。比如用la代替显示所有文件-a详细信息-l。
 ```
 alias lm='ls -al |more'
@@ -945,3 +963,34 @@ sudo apt-get install caffeine
 参考链接：
 
 [How to Install Caffeine Indicator 2.8 in Ubuntu 14.04](http://ubuntuhandbook.org/index.php/2015/01/install-caffeine-indicator-ubuntu-14-04/)
+
+## ipv6配置翻墙
+
+hosts文件先保存
+
+```
+
+cp /etc/hosts /etc/hosts_copy
+
+```
+
+[IPV6下教你两步实现翻墙](http://www.mryu.top/internet/121.html)
+
+修改hosts文还需增加主机名liu-Lenovo-IdeaPad-Y470这一行，否则sudo会有unsolve错误出现
+
+```
+::1 localhost
+::1 liu-Lenovo-IdeaPad-Y470
+
+```
+
+## Atom 配置
+
+前提 安好gcc和g++编译器
+
+安装gpp-compile、atom beauty两个包，需要安装依赖uncrustify
+
+```
+sudo apt-get install uncrustify
+
+```
