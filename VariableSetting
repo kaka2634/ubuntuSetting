@@ -1,7 +1,15 @@
-#have been write in /.bashrc
+#have been write in ./.bashrc
+#lenovo Y470
 #Variable
 ns=/home/liu/Desktop/workspace/ns-allinone-3.26/ns-3.26
 test=/home/liu/Desktop/test
 
 #alias
 alias cman='man -M /usr/share/man/zh_CN'
+
+#ASUS u4000
+#Varibale
+matlab=/usr/local/MATLAB/R2016a/bin/
+#using ./matlab to start matlab
+
+ns=/home/liu/Desktop/ns3/ns-allinone-3.26/ns-3.26
