@@ -10,6 +10,10 @@ alias cman='man -M /usr/share/man/zh_CN'
 #ASUS u4000
 #Varibale
 matlab=/usr/local/MATLAB/R2016a/bin/
-#using ./matlab to start matlab
 
 ns=/home/liu/Desktop/ns3/ns-allinone-3.26/ns-3.26
+
+sumo_home=/usr/share/sumo/tools
+
+#add matlab to path so it using matlab to start matlab
+
